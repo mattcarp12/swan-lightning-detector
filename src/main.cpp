@@ -23,7 +23,7 @@ const int lightningInt = PIN_A0;
 // This variable holds the number representing the lightning or non-lightning
 // event issued by the lightning detector.
 int intVal = 0;
-int noise = 5;     // Value between 1-7
+int noise = 4;     // Value between 1-7
 int disturber = 3; // Value between 1-10
 int watchdog = 4;  // Value between 1-10
 
@@ -50,14 +50,16 @@ void setup()
     // The lightning detector defaults to an indoor setting at
     // the cost of less sensitivity, if you plan on using this outdoors
     // uncomment the following line:
-    // lightning.setIndoorOutdoor(OUTDOOR);
+    lightning.setIndoorOutdoor(OUTDOOR);
 
     // lightning.watchdogThreshold(watchdog);
-    lightning.maskDisturber(1);
+    // lightning.calibrateOsc();
+    // lightning.maskDisturber(1);
 }
 
 void loop()
 {
+    
     if (digitalRead(lightningInt) == HIGH)
     {
         // Hardware has alerted us to an event, now we read the interrupt register
@@ -87,7 +89,7 @@ void loop()
             sendLigntningMsg(distance, energy);
         }
     }
-    delay(1000); // Slow it down.
+    delay(100); // Slow it down.
 }
 
 void sendNotecardBody(J *body)
