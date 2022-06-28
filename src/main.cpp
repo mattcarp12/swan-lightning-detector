@@ -18,7 +18,8 @@ Notecard notecard;
 SparkFun_AS3935 lightning(AS3935_ADDR);
 
 // Interrupt pin for lightning detection
-const int lightningInt = PIN_A0;
+const int lightningInt = 5;
+
 
 // This variable holds the number representing the lightning or non-lightning
 // event issued by the lightning detector.
@@ -40,12 +41,13 @@ void setup()
 
     if (!lightning.begin())
     { // Initialize the sensor.
-        sendNotecardMsg("AS3935 initialization failed");
+        notecard.logDebug("AS3935 initialization failed");
         while (1)
             ;
     }
     else
-        sendNotecardMsg("AS3935 initialization successful");
+        // sendNotecardMsg("AS3935 initialization successful");
+        notecard.logDebug("AS3935 initialization successful");
 
     // The lightning detector defaults to an indoor setting at
     // the cost of less sensitivity, if you plan on using this outdoors
@@ -68,6 +70,7 @@ void loop()
         if (intVal == NOISE_INT)
         {
             sendNotecardMsg("Noise detected");
+            notecard.logDebug("Noise detected");
             // Too much noise? Uncomment the code below, a higher number means better
             // noise rejection.
             lightning.setNoiseLevel(noise);
@@ -75,6 +78,7 @@ void loop()
         else if (intVal == DISTURBER_INT)
         {
             sendNotecardMsg("Disturber detected");
+            notecard.logDebug("Disturber detected");
             // Too many disturbers? Uncomment the code below, a higher number means better
             // disturber rejection.
             // lightning.watchdogThreshold(threshVal);
@@ -82,6 +86,7 @@ void loop()
         else if (intVal == LIGHTNING_INT)
         {
             sendNotecardMsg("Lightning detected");
+            notecard.logDebug("Lightning detected");
             // Lightning! Now how far away is it? Distance estimation takes into
             // account any previously seen events in the last 15 seconds.
             byte distance = lightning.distanceToStorm();
