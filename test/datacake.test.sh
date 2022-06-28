@@ -1,9 +1,9 @@
 #!/bin/bash
 
-device=dev:94deb8230282
-URL=https://api.datacake.co/integrations/api/77be0eb7-06e3-46cd-b714-6a3247b58e28/
-lat=27.97087589
-lon=-82.31997608
+device=$DEVICE_NAME
+URL=$DATACAKE_URL
+lat=$LAT
+lon=$LON
 
 # Function to generate random lightning detection
 function genJSON() {
